@@ -7,12 +7,13 @@ cc_library(
     srcs = [
         "bssl_wrapper/bssl_wrapper.cc",
         "bssl_wrapper/bssl_hkdf.c",
-        "bssl_wrapper/ossl_hkdf.c"
+        "bssl_wrapper/ossl_hkdf.c",
     ],
     hdrs = [
         "bssl_wrapper/bssl_wrapper.h",
-        "include/openssl/digest.h",
-        "include/openssl/hkdf.h",
+#        "//include:bssl_ossl_interface",
+        "openssl/digest.h",
+        "openssl/hkdf.h",
     ],
     linkopts = [
         "-ldl",
@@ -20,8 +21,14 @@ cc_library(
     deps = [
         "@openssl//:openssl-lib",
     ],
-    copts = [
-        "-Iinclude"
-        ]
+)
+
+# Header files for external use
+cc_library(
+    name = "bssl_ossl_interface",
+    hdrs = [
+        "openssl/digest.h",
+        "openssl/hkdf.h",
+    ],
 )
 
